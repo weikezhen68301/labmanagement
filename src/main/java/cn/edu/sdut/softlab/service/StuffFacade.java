@@ -40,4 +40,9 @@ public class StuffFacade extends AbstractFacade<Stuff> {
     parameters.put("password", password);
     return findSingleByNamedQuery("Stuff.findByUsernameAndPassword", parameters, Stuff.class).get();
   }
+  public Stuff findByUsername(String username){
+    Map<String,Object> parameters = new HashMap<>(0);
+    parameters.put("username", username);
+    return findSingleByNamedQuery("Stuff.findByUsername", parameters, Stuff.class).get();
+  }
 }

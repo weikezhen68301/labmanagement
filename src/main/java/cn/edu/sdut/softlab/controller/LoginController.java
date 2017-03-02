@@ -23,6 +23,8 @@ import cn.edu.sdut.softlab.qualifiers.LoggedIn;
 import cn.edu.sdut.softlab.service.StuffFacade;
 
 import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Produces;
@@ -30,13 +32,15 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.transaction.UserTransaction;
 
 @SessionScoped
 @Named("login")
 public class LoginController implements Serializable {
 
   private static final long serialVersionUID = 7965455427888195913L;
-
+  @Inject
+  private transient Logger logger;
   @Inject
   private Credentials credentials;
 
@@ -45,26 +49,39 @@ public class LoginController implements Serializable {
   
   @Inject
   FacesContext facesContext;
-
+  @Inject
+  private UserTransaction utx;
   private Stuff currentUser = null;
 
   /**
    * 处理登录逻辑.
+   * 
    */
   public void login() {
     Stuff stuff = stuffService.findByUsernameAndPassword(
             credentials.getUsername(), credentials.getPassword());
     if (stuff != null) {
       currentUser = stuff;
-      facesContext.addMessage(null, new FacesMessage("Welcome, " + currentUser.getUsername()));
+      facesContext.addMessage(null, new FacesMessage("Welcome, " + currentUser.getUseridentity()+currentUser.getUsername()));
     }
   }
-
+public String modifyMyself() throws Exception{
+          try {
+      utx.begin();
+      stuffService.edit(currentUser);
+      logger.log(Level.INFO, "Added {0}", currentUser);
+      return "/users.xhtml?faces-redirect=true";
+    } finally {
+      utx.commit();
+    }
+         
+}
+  
   /**
    * 处理退出登录逻辑.
    */
   public void logout() {
-    facesContext.addMessage(null, new FacesMessage("Goodbye, " + currentUser.getUsername()));
+    facesContext.addMessage(null, new FacesMessage("Goodbye, " + currentUser.getUseridentity()+currentUser.getUsername()));
     currentUser = null;
   }
 
@@ -82,5 +99,13 @@ public class LoginController implements Serializable {
   public Stuff getCurrentUser() {
     return currentUser;
   }
-
+public boolean isTeacher(){
+    return "教师".equals(currentUser.getUseridentity());
+}
+public boolean isStudent(){
+    return "学生".equals(currentUser.getUseridentity());
+}
+public boolean isAdministrator(){
+    return "管理员".equals(currentUser.getUseridentity());
+}
 }

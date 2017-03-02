@@ -37,6 +37,7 @@ import javax.persistence.criteria.Root;
 public abstract class AbstractFacade<T> {
 
   @Inject
+          //数据库操作
   EntityManager em;
   
   @Inject
@@ -47,19 +48,19 @@ public abstract class AbstractFacade<T> {
   public AbstractFacade(Class<T> entityClass) {
     this.entityClass = entityClass;
   }
-
+//存
   public void create(T entity) {
     em.persist(entity);
   }
-
+//数据更新//改动
   public T edit(T entity) {
     return em.merge(entity);
   }
-
+//删除
   public void remove(T entity) {
     em.remove(em.merge(entity));
   }
-
+//查询
   public T find(Object id) {
     return em.find(entityClass, id);
   }

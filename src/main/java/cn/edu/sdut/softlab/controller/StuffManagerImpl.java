@@ -40,10 +40,10 @@ public class StuffManagerImpl implements StuffManager {
   private transient Logger logger;
   @Inject
   StuffFacade userService;
-
+  @Inject
+  private Credentials credentials;
   @Inject
   private UserTransaction utx;
-
   private Stuff newStuff = new Stuff();
 
   public Stuff getNewStuff() {
@@ -78,4 +78,34 @@ public class StuffManagerImpl implements StuffManager {
       utx.commit();
     }
   }
+    @Override
+    public String removeStuff() throws Exception {
+         Stuff stuff = userService.findByUsernameAndPassword(
+            credentials.getUsername(), credentials.getPassword());
+       
+          try {
+      utx.begin();
+      userService.remove(stuff);
+      logger.log(Level.INFO, "Added {0}", newStuff);
+      return "/users.xhtml?faces-redirect=true";
+    } finally {
+      utx.commit();
+    }
+         
+    }
+
+    @Override
+    public String modifyStuff() throws Exception {
+             Stuff stuff = userService.findByUsername(credentials.getUsername());
+       
+          try {
+      utx.begin();
+      userService.edit(stuff);
+      logger.log(Level.INFO, "Added {0}", newStuff);
+      return "/users.xhtml?faces-redirect=true";
+    } finally {
+      utx.commit();
+    }
+    }
+
 }

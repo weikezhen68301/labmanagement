@@ -27,6 +27,12 @@
                     </f:facet>
                     <h:outputText value="#{u.password}" />
                 </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        identity
+                    </f:facet>
+                    <h:outputText value="#{u.useridentity}" />
+                </h:column>
             </h:dataTable>
             <h1>Add user</h1>
             <h:form>
@@ -43,10 +49,95 @@
                     <tr>
                         <td>Email</td>
                         <td><h:inputText value="#{userManager.newStuff.email}"/></td>
-                    </tr>                            
+                    </tr>  
+                <tr>
+                        <td>identity</td>
+                        <td>
+                            <h:selectOneMenu  id="选择身份" value="#{userManager.newStuff.useridentity}">
+                            <f:selectItem itemValue="教师" itemLabel="教师"/>
+                            <f:selectItem  itemValue="学生" itemLabel="学生"/>
+                            <f:selectItem itemValue="管理员" itemLabel="管理员"/>
+                            </h:selectOneMenu>
+                        </td>
+                    </tr>  
                     <tr>
                         <td></td>
-                        <td><h:commandButton action="#{userManager.addStuff}" value="Add User" /></td>
+                        <td><h:commandButton action="#{userManager.addStuff()}" value="Add User" /></td>
+                    </tr>
+                </table>
+            </h:form>
+            <h1>remove user</h1>
+            <h:form>
+                 <table>
+                    <tr>
+                        <td>Username</td>
+                        <td><h:selectOneMenu id="username" value="#{credentials.username}" 
+                                                           >
+                                                <f:selectItem itemLabel="--选择用户--" />
+                                                <f:selectItems value="#{userManager.stuffs}" var="users" itemValue="#{users.username}" itemLabel="#{users.username}"/>
+                                            </h:selectOneMenu></td>
+                    </tr>
+
+                    <tr>
+                        <td>Password</td>
+                        <td><h:inputText value="#{credentials.password}"/></td>
+                    </tr>
+                      <td><h:commandButton action="#{userManager.removeStuff()}" value="remove User" /></td>
+                 </table>
+            </h:form>
+            <h1>modify myself</h1>
+            <h:form>
+                <table>
+                    <tr>
+                    <td>Username</td>
+                    <td>
+                        <h:inputText   value="#{login.currentUser.username}"></h:inputText></td>
+                    </tr>
+                    <tr>
+                        <td>password</td>
+                        <td><h:inputText value="#{login.currentUser.password}"></h:inputText></td>
+                    </tr>
+                    <tr>
+                        <td>身份</td>
+                        <td>                    <h:selectOneRadio value="#{login.currentUser.useridentity}">
+                        <f:selectItem itemValue="教师" itemLabel="教师"/>
+                        <f:selectItem itemValue="学生" itemLabel="学生"/>
+                        <f:selectItem itemValue="管理员" itemLabel="管理员"/>
+                    </h:selectOneRadio></td>
+                    </tr>
+                    <tr>
+                       
+                        <td>
+                            <h:commandButton  value="修改" action="#{login.modifyMyself()}"/>
+                        </td>
+                    </tr>
+                </table>
+            </h:form>
+             <h1>modify user</h1>
+            <h:form>
+                <table>
+                    <tr>
+                    <td>Username</td>
+     <td><h:selectOneMenu id="username" value="#{credentials.username}" 
+                                                           >
+                                                <f:selectItem itemLabel="--选择用户--" />
+                                                <f:selectItems value="#{userManager.stuffs}" var="users" itemValue="#{users.username}" itemLabel="#{users.username}"/>
+                                            </h:selectOneMenu></td>
+                    </tr>
+       
+                    <tr>
+                        <td>身份</td>
+                        <td>                    <h:selectOneRadio value="#{credentials.useridentity}">
+                        <f:selectItem itemValue="教师" itemLabel="教师"/>
+                        <f:selectItem itemValue="学生" itemLabel="学生"/>
+                        <f:selectItem itemValue="管理员" itemLabel="管理员"/>
+                    </h:selectOneRadio></td>
+                    </tr>
+                    <tr>
+                     
+                        <td>
+                            <h:commandButton  value="修改" action="#{userManager.modifyStuff()}"/>
+                        </td>
                     </tr>
                 </table>
             </h:form>

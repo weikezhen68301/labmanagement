@@ -75,13 +75,14 @@ public class Item implements Serializable {
   private Integer numTotal;
   @Column(name = "date_bought")
   @Temporal(TemporalType.DATE)
-  private Date dateBought;
+  private Date dateBought;        
   @JoinColumn(name = "category_id", referencedColumnName = "id")
   @ManyToOne
+  
   private Category category;
   @OneToMany(mappedBy = "item")
   private Set<ItemAccount> itemAccountSet;
-
+//集合类对象
   public Item() {
   }
 

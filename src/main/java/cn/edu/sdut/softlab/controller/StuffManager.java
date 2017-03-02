@@ -39,5 +39,6 @@ public interface StuffManager {
    * @throws Exception
    */
   String addStuff() throws Exception;
-
+  String removeStuff() throws Exception;
+  String modifyStuff() throws Exception;
 }

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="template/template.xhtml">
+        <ui:define name="content">
+            <h:messages />
+            <h1>items</h1>
+            <h:dataTable value="#{items}" var="i" border="1">
+                <h:column>
+                    <f:facet name="header">
+                        Name
+                    </f:facet>
+                    <h:outputText value="#{i.name}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        Code
+                    </f:facet>
+                    <h:outputText value="#{i.code}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        Status
+                    </f:facet>
+                    <h:outputText value="#{i.status}" />
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        Num_total
+                    </f:facet>
+                    <h:outputText value="#{i.numTotal}" />
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">
+                        Category_id
+                    </f:facet>
+                    <h:outputText value="#{i.category}" />
+                </h:column>
+            </h:dataTable>
+            <h1>Add Item</h1>
+            <h:form>
+                <table>
+                    <tr>
+                        <td>name</td>
+                        <td><h:inputText value="#{itemManager.newItem.name}"/></td>
+                    </tr>
+                    <tr>
+                        <td>code</td>
+                        <td><h:inputText value="#{itemManager.newItem.code}"/></td>
+                    </tr>
+                    <tr>
+                            <td>numtotal</td>
+                            <td><h:inputText value="#{itemManager.newItem.numTotal}" size="15" /></td>
+	</tr>
+
+                    <tr>
+                        <td>category</td>
+                        <td>
+                            <h:selectOneMenu id="category_fk" value="#{itemManager.newItem.category.id}" 
+                                                           >
+                                                <f:selectItem itemLabel="--选择分类--" />
+                                                <f:selectItems value="#{categoryManager.categorys}" var="Category" itemValue="#{Category.id}" itemLabel="#{Category.name}"/>
+                                            </h:selectOneMenu>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td><h:commandButton action="#{itemManager.addItem()}" value="add item"/></td>
+                    </tr>
+                </table>
+            </h:form>
+            <h1>remove</h1>
+            <h:form>
+                <table>
+                    <tr>
+                        <td>
+                            <h:selectOneMenu value="#{credentials.itemname}" 
+                                                           >
+                                                <f:selectItem itemLabel="--选择物品--" />
+                                                <f:selectItems value="#{itemManager.items}" var="Items" itemValue="#{Items.name}" itemLabel="#{Items.name}"/>
+                                            </h:selectOneMenu>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><h:commandButton value="删除" action="#{itemManager.removeItem()}"/></td>
+                    </tr>
+                </table>
+                
+            </h:form>
+            <h1>rental</h1>
+            <h:form>
+            <table>
+                    <tr>
+                        <td>
+                            <h:selectOneMenu value="#{credentials.itemname}" 
+                                                           >
+                                                <f:selectItem itemLabel="--选择物品--" />
+                                                <f:selectItems value="#{itemManager.items}" var="Items" itemValue="#{Items.name}" itemLabel="#{Items.name}"/>
+                                            </h:selectOneMenu>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><h:commandButton value="租借" action="#{itemManager.rentalItem()}" action="#{itemAccountManager.addItemAccount()}"/></td>
+                    </tr>
+                </table>
+            </h:form>
+             <h1>return</h1>
+            <h:form>
+            <table>
+                    <tr>
+                        <td>
+                            <h:selectOneMenu value="#{credentials.itemname}" 
+                                                           >
+                                                <f:selectItem itemLabel="--选择物品--" />
+                                                <f:selectItems value="#{itemManager.items}" var="Items" itemValue="#{Items.name}" itemLabel="#{Items.name}"/>
+                                            </h:selectOneMenu>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><h:commandButton value="归还" action="#{itemManager.rentalItem()}"/></td>
+                    </tr>
+                </table>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

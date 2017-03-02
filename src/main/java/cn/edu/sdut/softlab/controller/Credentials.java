@@ -29,7 +29,17 @@ public class Credentials {
 
   private String username;
   private String password;
+private String useridentity;
+  private String itemname;
 
+    public String getItemname() {
+        return itemname;
+    }
+
+    public void setItemname(String itemname) {
+        this.itemname = itemname;
+    }
+    
   public String getUsername() {
     return username;
   }
@@ -45,5 +55,13 @@ public class Credentials {
   public void setPassword(String password) {
     this.password = password;
   }
+
+    public String getUseridentity() {
+        return useridentity;
+    }
+
+    public void setUseridentity(String useridentity) {
+        this.useridentity = useridentity;
+    }
 
 }

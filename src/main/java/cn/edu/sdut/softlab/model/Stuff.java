@@ -71,6 +71,11 @@ public class Stuff implements Serializable {
   @Size(max = 256)
   @Column(name = "email")
   private String email;
+@Basic(optional = false)
+  @NotNull
+  @Size(min = 1, max = 32)
+  @Column(name = "useridentity")
+  private String useridentity;
   @OneToMany(mappedBy = "stuff")
   private Set<ItemAccount> itemAccountSet;
 
@@ -81,10 +86,11 @@ public class Stuff implements Serializable {
     this.id = id;
   }
 
-  public Stuff(Integer id, String username, String password) {
+  public Stuff(Integer id, String username, String password,String useridentity) {
     this.id = id;
     this.username = username;
     this.password = password;
+    this.useridentity=useridentity;
   }
 
   public Integer getId() {
@@ -133,5 +139,15 @@ public class Stuff implements Serializable {
   public String toString() {
     return "cn.edu.sdut.softlab.model.Stuff[ id=" + id + " ]";
   }
+
+    public String getUseridentity() {
+        return useridentity;
+    }
+
+    public void setUseridentity(String useridentity) {
+        this.useridentity = useridentity;
+    }
+
+
 
 }
